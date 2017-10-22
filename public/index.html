@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Index</title>
+</head>
+<body>
+<!-- <form action="http://127.0.0.1:8081/process_post" method="POST">
+	First Name: <input type="text" name="first_name"> <br>
+
+	Last Name: <input type="text" name="last_name"> <br>
+
+	<input type="file" name="image"> <br>
+
+	<input type="submit" name="" value="submit">
+
+</form> -->
+
+
+
+<form action="/file_upload" method="POST" enctype="multipart/form-data">
+	First Name: <input type="text" name="first_name"> <br>
+
+	Last Name: <input type="text" name="last_name"> <br>
+
+	Token: <input type="text" name="token" id="txtToken"> <br>
+
+	<input type="file" name="image"> <br>
+
+	<input type="submit" name="" value="submit">
+</form>
+	<input type="button" name="" id="btnGetToken" value="get upload token">
+	
+	<label id="socketMessage"></label>
+
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
