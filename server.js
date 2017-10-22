@@ -72,9 +72,9 @@ app.post('/file_upload', (req, res) => {
 
   let file = req.files[0];
   let size = file.size;
-  // size limit  1G 
-  if (size > 1048576) {
-    res.end('File beyond size limit ！');
+  // size limit  10MB
+  if (size > 10240) {
+    res.end('File beyond size limit !');
     return false;
   }
 
@@ -87,7 +87,7 @@ app.post('/file_upload', (req, res) => {
     }
   }
   if (mimetypeFlag === 0) {
-    res.end('Documents must be image format ！');
+    res.end('Documents must be image format !');
     return false;
   }
 
@@ -120,28 +120,62 @@ app.post('/file_upload', (req, res) => {
 });
 
 
+// get download token 
+app.get('/get_download_token', (req, res) => {
+  console.log('get download token');
+  let tokenDownload = randomString();
+  console.log(tokenDownload);
+  req.session.tokenDownload = tokenDownload;
+  console.log(req.session.tokenDownload);
+  res.end(tokenDownload)
+});
+
+
+
 // get file download 
 app.get('/file_download', (req, res) => {
   console.log('file download');
   console.log('file_name: ' + req.query.file_name);
 
-  res.writeHead(200, {
-     'Content-Type': 'application/octet-stream',
-     'Content-Disposition': 'attachment; filename=' + req.query.file_name,
-     'Accept-Length': 1024,
-  });
+  let tokenDownload = req.query.tokenDownload;
+  if (tokenDownload === req.session.tokenDownload) {
 
-  let stream = fs.createReadStream(__dirname + '/' + req.query.file_name);
-  console.log(stream);
-  stream.pipe(res);
+    res.writeHead(200, {
+       'Content-Type': 'application/octet-stream',
+       'Content-Disposition': 'attachment; filename=' + req.query.file_name,
+       'Accept-Length': 1024,
+    });
+
+    let stream = fs.createReadStream(__dirname + '/' + req.query.file_name);
+    console.log(stream);
+    stream.pipe(res);
+  } else {
+    console.log(req.session.tokenDownload);
+
+    res.end('tokenDownload error');
+  }
+  
 });
 
 
 let server = require('http').createServer(app);
 
 let io = require('socket.io')(server);
-io.on('connection', function(){ 
+io.on('connection', (socket) => { 
+
   console.log('socket.io connection');
+
+  socket.on('updateSocketStatus', (data) => {
+    console.log(data);
+
+    // socket.broadcast.emit('showMessage', data);
+    io.emit('showMessage', data);
+
+
+  });
+
+
+
 });
 
 server.listen(3000, (req, res) => {
