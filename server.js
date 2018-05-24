@@ -6,17 +6,19 @@ let multer = require('multer');
 let cors = require('cors');
 let cookieParser = require('cookie-parser');
 let session = require('express-session');
+let options = {
+  setHeaders: function (res, path, stat) {
+    res.set('Access-Control-Allow-Origin', '*')
+  }
+}
 
-// static file
-// http://localhost:8081/images/img144.jpeg
-app.use(express.static('public'));
+app.use(express.static('public', options));
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(multer({
   dest: '/tmp/'
 }).array('image'));
-app.use(cors());
 
 let secretStr = randomString();
 app.use(cookieParser(secretStr));
