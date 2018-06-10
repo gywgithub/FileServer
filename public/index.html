@@ -1,39 +1,94 @@
 <!DOCTYPE html>
+<!-- <html manifest1="chemViewer.manifest1"> -->
 <html>
 <head>
-	<title>Index</title>
+	<meta charset="UTF-8">
+	<title>localhost 3D</title>
+
+	<script src="./libs/Three.js"></script>
+	<script src="./libs/kekule.min.js?modules=chemWidget,openbabel"></script>
+
+	<link rel="stylesheet" type="text/css" href="./libs/themes/default/kekule.css" />
+
+	<style>
+		html, body
+		{
+			margin: 0;
+			padding: 0;
+			position: relative;
+			overflow: hidden;
+		}
+	</style>
+
+	<script name="mol1" id="mol1" type="chemical/x-mdl-molfile">
+Untitled Document-2
+  Kekule  07101201153D
+
+  6  5  0  0  0  0  0  0  0  0999 V2000
+   -0.3586    0.0000   -0.1337 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0564    0.0000   -0.1337 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6779    0.0000   -1.1978 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6779    0.9530    0.3397 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.6779   -0.9530    0.3397 H   0  0  0  0  0  0  0  0  0  0  0  0
+    1.3358    0.0000    0.7858 H   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0
+  1  3  1  0
+  1  4  1  0
+  1  5  1  0
+  2  6  1  0
+M  END
+	</script>
+
+	<script>
+		// var chemViewer;
+		// function init()
+		// {
+		// 	chemViewer = Kekule.Widget.getWidgetById('chemViewer');
+		// 	// adjust size
+		// 	adjustSize();
+
+		// 	window.onresize = adjustSize;
+		// }
+		// function adjustSize()
+		// {
+		// 	var dim = Kekule.HtmlElementUtils.getViewportDimension(document);
+		// 	var headerDim = Kekule.HtmlElementUtils.getElemClientDimension(document.getElementById('header'));
+		// 	chemViewer.setWidth(dim.width - 10 + 'px').setHeight(dim.height - 10 - headerDim.height + 'px');
+		// }
+
+		// Kekule.X.domReady(init);
+		// http://127.0.0.1:3001/images/c.mol
+		console.log('0s')
+		setTimeout(() => {
+		  console.log('1s .')
+		  let chemViewer = document.getElementById('chemViewer')
+		  console.log(chemViewer)
+		  console.log(typeof chemViewer)
+		  let chemObj = chemViewer.getAttribute('data-chem-obj')
+		  console.log(chemObj)
+		  console.log(typeof chemObj)
+		  let taxol = 'url(./images/taxol.mol)'
+		//   chemViewer.setAttribute('data-chem-obj', taxol)
+		//   chemViewer.load(taxol)
+
+		  let chemViewer3D = Kekule.Widget.getWidgetById('chemViewer');
+		  console.log(chemViewer3D)
+		  console.log(typeof chemViewer3D)
+		//   chemViewer3D.load(taxol)
+		  chemViewer3D.chemObj = taxol
+		}, 1500)
+	</script>
 </head>
 <body>
-<!-- <form action="http://127.0.0.1:8081/process_post" method="POST">
-	First Name: <input type="text" name="first_name"> <br>
+	<div id="chemViewer" style="width:300px;height:200px"
+			 data-widget="Kekule.ChemWidget.Viewer3D" data-predefined-setting="basic"
+			 data-chem-obj="url(#mol1)"></div>
 
-	Last Name: <input type="text" name="last_name"> <br>
+	<span id="chemViewer2" style="width:300px;height:200px"
+			 data-widget="Kekule.ChemWidget.Viewer3D" data-predefined-setting="basic"
+			 data-chem-obj="url(./images/taxol.mol)"></span>
 
-	<input type="file" name="image"> <br>
-
-	<input type="submit" name="" value="submit">
-
-</form> -->
-
-
-
-<form action="/file_upload" method="POST" enctype="multipart/form-data">
-	First Name: <input type="text" name="first_name"> <br>
-
-	Last Name: <input type="text" name="last_name"> <br>
-
-	Token: <input type="text" name="token" id="txtToken"> <br>
-
-	<input type="file" name="image"> <br>
-
-	<input type="submit" name="" value="submit">
-</form>
-	<input type="button" name="" id="btnGetToken" value="get upload token"> <br>
-	<input type="button" name="" id="updateClick" value="updateSocketStatus"> <br>
-	<label id="socketMessage"></label>
-
-	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="main.js"></script>
+	<span id="chemViewer3" style="width:300px;height:200px"
+			 data-widget="Kekule.ChemWidget.Viewer3D" data-predefined-setting="basic"></span>
 </body>
 </html>
