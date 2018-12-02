@@ -1,47 +1,42 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Index</title>
 	<style type="text/css">
-		.content {
-			border: 1px solid #ccc;
-			margin-top: 100px;
-		}
-		.padding {
-			padding: 10px;
-		}
 	</style>
 </head>
+
 <body>
-	<div class="padding">
-		<h2>index.html</h2>
-		<p>这个页面为项目根目录下 public 文件夹下 index.html 内容</p>
-		<p>public 文件夹内容可以直接通过url地址进行访问，服务器支持跨域请求</p>
-		<p>如： 访问 public/images/p1.jpg 使用下面地址</p>
-		<a target="_blank" href="http://localhost:3000/images/p1.jpg">http://localhost:3000/images/p1.jpg</a>	
+	<div>
+		<input id="file" type="file" />
+		<button id="upload" type="button">upload</button>
 	</div>
+	<script type="text/javascript">
+		let button = document.getElementById('upload')
+		button.addEventListener('click', event => {
+			let fileObj = document.getElementById('file').files[0]
+			if (fileObj) {
+				let url = 'http://192.168.199.172:3000/file_upload'
+				let formData = new FormData()
+				formData.append('image', fileObj)
+				let xhr = new XMLHttpRequest()
 
-	<div class="content padding">
-		<h3>根据获取的 Token 上传文件</h3>
-		<form action="/file_upload" method="POST" enctype="multipart/form-data">
-			First Name: <input type="text" name="first_name"> <br>
+				xhr.onload = function () {
+					console.log('ok')
+					console.log(JSON.parse(xhr.responseText))
+				}
+				xhr.onerror = function () {
+					console.log('fail')
+				}
+				xhr.open('post', url, true)
+				xhr.send(formData)
 
-			Last Name: <input type="text" name="last_name"> <br>
-
-			Token: <input type="text" name="token" id="txtToken"> <br>
-
-			<input type="file" name="image"> <br>
-
-			<input type="submit" value="submit">
-		</form>
-		<input type="button" id="btnGetToken" value="get upload token"> <br>
-		<input type="button" id="updateClick" value="updateSocketStatus"> <br>
-		<label id="socketMessage"></label>		
-	</div>
-
-
-	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="main.js"></script>
+			} else {
+				console.log('请选择文件')
+			}
+		})
+	</script>
 </body>
+
 </html>
