@@ -3,19 +3,20 @@ let app = express()
 let bodyParser = require('body-parser')
 let fs = require('fs')
 let multer = require('multer')
-let options = {
-  setHeaders: function (res, path, stat) {
-    res.set('Access-Control-Allow-Origin', '*')
-  }
-}
 
-app.use(express.static('public', options))
+app.use(express.static('public'))
+
 app.use(bodyParser.urlencoded({
   extended: false
 }))
+
 app.use(multer({
   dest: '/tmp/'
 }).array('image'))
+
+let cors = require('cors')
+app.use(cors())
+
 
 
 //  get /
@@ -23,11 +24,27 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
+// put file_upload
+app.put('/file_upload_put', (req, res) => {
+  let des_file = __dirname + '/public/images/' + req.files[0].originalname
+  fs.readFile(req.files[0].path, (err, data) => {
+    fs.writeFile(des_file, data, (err) => {
+      if (err) {
+        console.log(err)
+      } else {
+        response = {
+          message: 'File Upload Success!',
+          filename: req.files[0].originalname
+        }
+      }
+      res.end(JSON.stringify(response))
+    })
+  })
+})
+
 
 // post file_upload
 app.post('/file_upload', (req, res) => {
-  console.log('file upload')
-
   let file = req.files[0]
   let size = file.size
   // size limit  10MB

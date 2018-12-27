@@ -2,7 +2,7 @@
 
 > 一个 node 版文件服务器，支持跨域 
 
-> 可以根据获取的服务器 Token 上传文件
+> 支持 post put 上传文件
 
 #### 使用指南
 
@@ -31,3 +31,5 @@ node server.js
 ~~~
 
 浏览器输入 http://localhost:3000/ 可以看到页面内容就OK了
+
+浏览器输入 http://localhost:3000/images/cat.png 查看图片
