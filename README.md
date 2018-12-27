@@ -32,4 +32,4 @@ node server.js
 
 浏览器输入 http://localhost:3000/ 可以看到页面内容就OK了
 
-浏览器输入 http://localhost:3000/images/cat.png 查看图片
+浏览器输入 http://localhost:3000/images/favicon.ico 查看图片

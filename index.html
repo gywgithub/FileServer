@@ -2,12 +2,15 @@
 <html>
 
 <head>
-	<title>Index</title>
+	<title>File Server</title>
 	<style type="text/css">
 	</style>
 </head>
 
 <body>
+	<div>
+		<h3>File Server </h3>  
+	</div>
 	<div>
 		<input id="file" type="file" />
 		<button id="upload" type="button">upload</button>
@@ -17,7 +20,7 @@
 		button.addEventListener('click', event => {
 			let fileObj = document.getElementById('file').files[0]
 			if (fileObj) {
-				let url = 'http://192.168.199.172:3000/file_upload'
+				let url =  window.location.origin + '/file_upload'
 				let formData = new FormData()
 				formData.append('image', fileObj)
 				let xhr = new XMLHttpRequest()
