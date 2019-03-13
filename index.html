@@ -9,11 +9,15 @@
 
 <body>
 	<div>
-		<h3>File Server </h3>  
+		<h3>Simple File Upload</h3>  
 	</div>
 	<div>
 		<input id="file" type="file" />
 		<button id="upload" type="button">upload</button>
+	</div>
+	<br><br>
+	<div>
+		<a id="a" href="#">multiple files upload</a>
 	</div>
 	<script type="text/javascript">
 		let button = document.getElementById('upload')
@@ -38,6 +42,12 @@
 			} else {
 				console.log('请选择文件')
 			}
+		})
+
+		let a = document.getElementById('a')
+		a.addEventListener('click', event => {
+			let origin = document.location.origin
+			document.location.assign(origin + '/multiple-files-upload.html')
 		})
 	</script>
 </body>

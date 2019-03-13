@@ -74,7 +74,8 @@ app.post('/file_upload', (req, res) => {
       } else {
         response = {
           message: 'File Upload Success!',
-          filename: req.files[0].originalname
+          filename: req.files[0].originalname,
+          url: 'http://192.168.199.172:3000/images/' + req.files[0].originalname
         }
       }
       res.end(JSON.stringify(response))

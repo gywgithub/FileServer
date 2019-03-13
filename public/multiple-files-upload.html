@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>File Server</title>
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+    <div>
+        <h3>Multiple Files Upload</h3>
+    </div>
+    <div>
+        <input type="file" id="fileElem" multiple accept="image/*" style="display:none" onchange="handleFiles(this.files)">
+        <a href="#" id="fileSelect">Select some files</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#" id="fileClear">Clear files</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#" id="upload">Upload</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <div id="fileList">
+            <p>No files selected!</p>
+        </div>
+    </div>
+    <script type="text/javascript">
+    window.URL = window.URL || window.webkitURL;
+
+    const fileSelect = document.getElementById("fileSelect"),
+        fileElem = document.getElementById("fileElem"),
+        fileList = document.getElementById("fileList");
+
+    fileSelect.addEventListener("click", function(e) {
+        if (fileElem) {
+            fileElem.click();
+        }
+        e.preventDefault(); // prevent navigation to "#"
+    }, false);
+
+    function handleFiles(files) {
+        if (!files.length) {
+            fileList.innerHTML = "<p>No files selected!</p>";
+        } else {
+            fileList.innerHTML = "";
+            const list = document.createElement("ul");
+            fileList.appendChild(list);
+            for (let i = 0; i < files.length; i++) {
+                const li = document.createElement("li");
+                list.appendChild(li);
+
+                const img = document.createElement("img");
+                img.src = window.URL.createObjectURL(files[i]);
+                img.height = 60;
+                img.onload = function() {
+                    window.URL.revokeObjectURL(this.src);
+                }
+                li.appendChild(img);
+                const info = document.createElement("span");
+                info.innerHTML = files[i].name + ": " + files[i].size + " bytes";
+                li.appendChild(info);
+            }
+        }
+    }
+
+    let fileClear = document.getElementById('fileClear')
+    fileClear.addEventListener('click', event => {
+        fileList.innerHTML = "<p>No files selected!</p>";
+        fileElem.value = ''
+    })
+
+    let button = document.getElementById('upload')
+    button.addEventListener('click', event => {
+        let files = document.getElementById('fileElem').files
+        if (files && files.length > 0) {
+            let url = window.location.origin + '/file_upload'
+            for (let item of files) {
+                console.log(item)
+                let formData = new FormData()
+                formData.append('image', item)
+                let xhr = new XMLHttpRequest()
+
+                xhr.onload = function() {
+                    console.log('ok')
+                    console.log(JSON.parse(xhr.responseText))
+                }
+                xhr.onerror = function() {
+                    console.log('fail')
+                }
+                xhr.open('post', url, true)
+                xhr.send(formData)
+            }
+        } else {
+            console.log('请选择文件')
+        }
+    })
+    </script>
+</body>
+
+</html>
