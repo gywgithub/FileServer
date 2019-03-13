@@ -6,5 +6,5 @@ package-lock.json
 *.png
 *.svg
 *.jpg
-*.gif
+# *.gif
 *.jpeg
