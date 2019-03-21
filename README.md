@@ -1,6 +1,6 @@
 ## File Server Node 
 
-> 一个 node 版文件服务器，支持跨域 
+> 一个 node 版文件服务器, 支持跨域, 图片在线预览
 
 > 支持 post put 上传文件
 
