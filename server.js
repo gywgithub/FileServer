@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(multer({
   dest: '/tmp/'
-}).array('image'))
+}).array('files'))
 
 let cors = require('cors')
 app.use(cors())
@@ -45,6 +45,9 @@ app.put('/file_upload_put', (req, res) => {
 
 // post file_upload
 app.post('/file_upload', (req, res) => {
+  console.log('file')
+  // console.log(JSON.stringify(req))
+  console.log(req.body)
   let file = req.files[0]
   let size = file.size
   // size limit  10MB
