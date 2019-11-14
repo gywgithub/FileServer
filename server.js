@@ -24,9 +24,29 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
+
+
+// post 403
+app.post('/post_403', (req, res) => {
+  res.status(403).send({ error: 'Permission denied' });
+})
+
+// post test
+app.post('/post_test', (req, res) => {
+  console.log('post')
+  let data = {
+    'post_data': '123'
+  }
+  console.log('123')
+  // res.end(JSON.stringify(data))
+  res.end('123')
+})
+
 // put file_upload
 app.put('/file_upload_put', (req, res) => {
+  console.log('file_upload_put')
   let des_file = __dirname + '/public/images/' + req.files[0].originalname
+  console.log('des_file: ', des_file)
   fs.readFile(req.files[0].path, (err, data) => {
     fs.writeFile(des_file, data, (err) => {
       if (err) {
