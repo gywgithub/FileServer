@@ -45,26 +45,6 @@ app.post('/post_test', (req, res) => {
 // put file_upload
 app.put('/file_upload_put', (req, res) => {
   console.log('file_upload_put')
-
-  // let des_file = __dirname + '/public/images/' + req.files.originalname
-  // console.log('des_file: ', des_file)
-  // fs.readFile(req.files.path, (err, data) => {
-  //   fs.writeFile(des_file, data, (err) => {
-  //     if (err) {
-  //       console.log(err)
-  //     } else {
-  //       response = {
-  //         message: 'File Upload Success!',
-  //         filename: req.files.originalname
-  //       }
-  //     }
-  //     res.end(JSON.stringify(response))
-  //   })
-  // })
-
-  console.log(req.files)
-  console.log(typeof req.files)
-  console.log(req.files)
   let des_file = __dirname + '/public/images/' + req.files[0].originalname
   console.log('des_file: ', des_file)
   fs.readFile(req.files[0].path, (err, data) => {
@@ -86,8 +66,6 @@ app.put('/file_upload_put', (req, res) => {
 // post file_upload
 app.post('/file_upload', (req, res) => {
   console.log('file')
-  // console.log(JSON.stringify(req))
-  console.log(req.body)
   let file = req.files[0]
   let size = file.size
   // size limit  10MB
