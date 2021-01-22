@@ -84,6 +84,39 @@ app.post('/file_upload', (req, res) => {
 
 })
 
+// ---------------- mp api ------------------
+app.get('/api/v1/stores', (req, res) => {
+  console.log('stores')
+
+  let data = {
+    "status": true,
+    "message": "OK",
+    "error": "",
+    "data": [{
+        "name": "PLAY HOUSE(成都店)",
+        "city": "成都市",
+        "address": "锦江区水碾河路48号",
+        "id": 18
+      },
+      {
+        "name": "DANCE CLUB",
+        "city": "成都",
+        "address": "成华区双林路339号B栋",
+        "id": 16
+      },
+      {
+        "name": "皇后酒吧(金源路店)",
+        "city": "重庆市",
+        "address": "江北区金源路9号",
+        "id": 15
+      }
+    ]
+
+  }
+  res.end(JSON.stringify(data))
+})
+// ---------------- end ---------------------
+
 let server = require('http').createServer(app)
 
 
@@ -92,4 +125,5 @@ server.listen(3000, (req, res) => {
   let port = server.address().port
 
   console.log('server is running .  http://%s:%s', host, port)
+  console.log('http://127.0.0.1:3000')
 })
