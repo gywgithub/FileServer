@@ -93,9 +93,9 @@ app.get('/api/v1/stores', (req, res) => {
     "message": "OK",
     "error": "",
     "data": [{
-        "name": "PLAY HOUSE(成都店)",
-        "city": "成都市",
-        "address": "锦江区水碾河路48号",
+        "name": "店铺名称001",
+        "city": "店铺所在城市",
+        "address": "店铺详细地址",
         "id": 18
       },
       {
@@ -103,18 +103,44 @@ app.get('/api/v1/stores', (req, res) => {
         "city": "成都",
         "address": "成华区双林路339号B栋",
         "id": 16
-      },
-      {
-        "name": "皇后酒吧(金源路店)",
-        "city": "重庆市",
-        "address": "江北区金源路9号",
-        "id": 15
       }
     ]
 
   }
   res.end(JSON.stringify(data))
 })
+
+
+app.get('/api/v1/admin/product', (req, res) => {
+  console.log('product')
+  let data = {
+    "status": true,
+    "message": "OK",
+    "error": "",
+    "data": {
+      data_list: [
+        {
+          src: 'http://127.0.0.1:3000/images/1.jpg',
+          title: '动漫头像',
+          artist: '动漫女生头像，简笔画头像风格，唯美简约风格，可爱甜美风格',
+          price: 20,
+          number: 0
+        },
+        {
+          src: 'http://127.0.0.1:3000/images/2.jpg',
+          title: '动漫女生头像',
+          artist: '动漫女生头像，简笔画头像风格，唯美简约风格，可爱甜美风格，二次元',
+          price: 30,
+          number: 0
+        }
+      ]
+    }
+  } 
+  res.end(JSON.stringify(data))
+})
+
+
+
 // ---------------- end ---------------------
 
 let server = require('http').createServer(app)
