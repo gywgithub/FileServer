@@ -84,65 +84,6 @@ app.post('/file_upload', (req, res) => {
 
 })
 
-// ---------------- mp api ------------------
-app.get('/api/v1/stores', (req, res) => {
-  console.log('stores')
-
-  let data = {
-    "status": true,
-    "message": "OK",
-    "error": "",
-    "data": [{
-        "name": "店铺名称001",
-        "city": "店铺所在城市",
-        "address": "店铺详细地址",
-        "id": 18
-      },
-      {
-        "name": "DANCE CLUB",
-        "city": "成都",
-        "address": "成华区双林路339号B栋",
-        "id": 16
-      }
-    ]
-
-  }
-  res.end(JSON.stringify(data))
-})
-
-
-app.get('/api/v1/admin/product', (req, res) => {
-  console.log('product')
-  let data = {
-    "status": true,
-    "message": "OK",
-    "error": "",
-    "data": {
-      data_list: [
-        {
-          src: 'http://127.0.0.1:3000/images/1.jpg',
-          title: '动漫头像',
-          artist: '动漫女生头像，简笔画头像风格，唯美简约风格，可爱甜美风格',
-          price: 20,
-          number: 0
-        },
-        {
-          src: 'http://127.0.0.1:3000/images/2.jpg',
-          title: '动漫女生头像',
-          artist: '动漫女生头像，简笔画头像风格，唯美简约风格，可爱甜美风格，二次元',
-          price: 30,
-          number: 0
-        }
-      ]
-    }
-  } 
-  res.end(JSON.stringify(data))
-})
-
-
-
-// ---------------- end ---------------------
-
 let server = require('http').createServer(app)
 
 
