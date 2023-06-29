@@ -27,7 +27,7 @@
         </div>
         <div>
           <input id="file" type="file" />
-          <button id="upload" type="button">upload</button>
+          <button id="upload">upload</button>
         </div>
       </div>
     </div>
@@ -48,19 +48,21 @@
       });
 
       async function uploadFile(file) {
-        let xhr = new XMLHttpRequest();
+        console.log("fileSize: ", file.size);
+        console.log("file: ", file);
         let blockSize = 1024 * 1024; // 分块大小 1M
         let blockCount = Math.ceil(file.size / blockSize); // 分块数量
         console.log(blockCount);
-
+        let blockSizeSum = 0;
         let fileNameList = []; // 文件块名称数组
         for (let i = 0; i < blockCount; i++) {
           console.log("i: ", i + 1);
           // 获取当前块
-          let block = file.slice(i * blockSize, (i + 1) * blockSize); // 创建 FormData 对象
+          let block = file.slice(i * blockSize, (i + 1) * blockSize);
 
           console.log("block: ", block);
           console.log("origin file.name: ", file.name);
+          blockSizeSum = blockSizeSum + block.size;
           let fileName =
             file.name.split(".")[0] +
             "_block_" +
@@ -74,8 +76,8 @@
             const formData = new FormData();
 
             console.log("fetch upload ---");
-            formData.append("image", block, fileName); // 发送上传请求
-            formData.append("block_index", i + 1); // 发送上传请求
+            formData.append("image", block, fileName);
+            formData.append("block_index", i + 1);
             fetch(ipAddress + "/upload_large_file", {
               method: "post",
               body: formData,
@@ -92,6 +94,8 @@
           });
 
           if (i === blockCount - 1) {
+            console.log("blockSizeSum: ", blockSizeSum);
+
             // 如果最后一个块上传成功，则发送上传结束请求给服务器
             console.log("fileList: ", fileNameList);
             fetch(ipAddress + "/finish_upload", {
