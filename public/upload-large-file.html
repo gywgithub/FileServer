@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File Server</title>
+    <style type="text/css">
+      body {
+        padding: 10px;
+      }
+      .div-card {
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        width: 48%;
+        padding: 10px;
+      }
+      .flex-between {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="flex-between">
+      <div class="div-card">
+        <div>
+          <h3>Upload large File</h3>
+        </div>
+        <div>
+          <input id="file" type="file" />
+          <button id="upload" type="button">upload</button>
+        </div>
+      </div>
+    </div>
+    <br /><br />
+    <div>
+      <a id="a" href="#">multiple files upload</a>
+    </div>
+    <script type="text/javascript">
+      const ipAddress = "http://127.0.0.1:3000";
+      let button = document.getElementById("upload");
+      button.addEventListener("click", (event) => {
+        let fileObj = document.getElementById("file").files[0];
+        if (fileObj) {
+          uploadFile(fileObj);
+        } else {
+          console.log("请选择文件");
+        }
+      });
+
+      async function uploadFile(file) {
+        let xhr = new XMLHttpRequest();
+        let blockSize = 1024 * 1024; // 分块大小 1M
+        let blockCount = Math.ceil(file.size / blockSize); // 分块数量
+        console.log(blockCount);
+
+        let fileNameList = []; // 文件块名称数组
+        for (let i = 0; i < blockCount; i++) {
+          console.log("i: ", i + 1);
+          // 获取当前块
+          let block = file.slice(i * blockSize, (i + 1) * blockSize); // 创建 FormData 对象
+
+          console.log("block: ", block);
+          console.log("origin file.name: ", file.name);
+          let fileName =
+            file.name.split(".")[0] +
+            "_block_" +
+            (i + 1) +
+            "." +
+            file.name.split(".")[1];
+          console.log("fileName: ", fileName);
+          fileNameList.push(fileName);
+
+          await new Promise((resolve, reject) => {
+            const formData = new FormData();
+
+            console.log("fetch upload ---");
+            formData.append("image", block, fileName); // 发送上传请求
+            formData.append("block_index", i + 1); // 发送上传请求
+            fetch(ipAddress + "/upload_large_file", {
+              method: "post",
+              body: formData,
+            })
+              .then((response) => response.json())
+              .then((result) => {
+                console.log("Success:", result);
+                resolve(true);
+              })
+              .catch((error) => {
+                console.error("Error: ", error);
+                reject(error);
+              });
+          });
+
+          if (i === blockCount - 1) {
+            // 如果最后一个块上传成功，则发送上传结束请求给服务器
+            console.log("fileList: ", fileNameList);
+            fetch(ipAddress + "/finish_upload", {
+              method: "POST",
+              body: JSON.stringify({
+                fileChunkList: fileNameList,
+                fileName: file.name,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("data: ", data);
+              });
+          }
+        }
+      }
+
+      // go multiple-files-upload.html
+      let a = document.getElementById("a");
+      a.addEventListener("click", (event) => {
+        let origin = document.location.origin;
+        document.location.assign(origin + "/multiple-files-upload.html");
+      });
+    </script>
+  </body>
+</html>

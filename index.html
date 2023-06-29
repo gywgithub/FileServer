@@ -1,55 +1,70 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>File Server</title>
+    <style type="text/css">
+      body {
+        padding: 10px;
+      }
+      .div-card {
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        width: 48%;
+        padding: 10px;
+      }
+      .flex-between {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
 
-<head>
-	<title>File Server</title>
-	<style type="text/css">
-	</style>
-</head>
+  <body>
+    <div class="flex-between">
+      <div class="div-card">
+        <div>
+          <h3>Simple File Upload</h3>
+        </div>
+        <div>
+          <input id="file" type="file" />
+          <button id="upload" type="button">upload</button>
+        </div>
+      </div>
+    </div>
+    <br /><br />
+    <div>
+      <a id="a" href="#">multiple files upload</a>
+    </div>
+    <script type="text/javascript">
+      let button = document.getElementById("upload");
+      button.addEventListener("click", (event) => {
+        let fileObj = document.getElementById("file").files[0];
+        if (fileObj) {
+          let url = window.location.origin + "/file_upload";
+          let formData = new FormData();
+          formData.append("image", fileObj);
+          let xhr = new XMLHttpRequest();
 
-<body>
-	<div>
-		<h3>Simple File Upload</h3>  
-	</div>
-	<div>
-		<input id="file" type="file" />
-		<button id="upload" type="button">upload</button>
-	</div>
-	<br><br>
-	<div>
-		<a id="a" href="#">multiple files upload</a>
-	</div>
-	<script type="text/javascript">
-		let button = document.getElementById('upload')
-		button.addEventListener('click', event => {
-			let fileObj = document.getElementById('file').files[0]
-			if (fileObj) {
-				let url =  window.location.origin + '/file_upload'
-				let formData = new FormData()
-				formData.append('image', fileObj)
-				let xhr = new XMLHttpRequest()
+          xhr.onload = function () {
+            console.log("ok");
+            console.log(JSON.parse(xhr.responseText));
+            console.log("upload success");
+          };
+          xhr.onerror = function () {
+            console.log("fail");
+          };
+          xhr.open("post", url, true);
+          xhr.send(formData);
+        } else {
+          console.log("请选择文件");
+        }
+      });
 
-				xhr.onload = function () {
-					console.log('ok')
-					console.log(JSON.parse(xhr.responseText))
-				}
-				xhr.onerror = function () {
-					console.log('fail')
-				}
-				xhr.open('post', url, true)
-				xhr.send(formData)
-
-			} else {
-				console.log('请选择文件')
-			}
-		})
-
-		let a = document.getElementById('a')
-		a.addEventListener('click', event => {
-			let origin = document.location.origin
-			document.location.assign(origin + '/multiple-files-upload.html')
-		})
-	</script>
-</body>
-
+      let a = document.getElementById("a");
+      a.addEventListener("click", (event) => {
+        let origin = document.location.origin;
+        document.location.assign(origin + "/multiple-files-upload.html");
+      });
+    </script>
+  </body>
 </html>

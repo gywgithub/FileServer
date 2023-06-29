@@ -69,7 +69,8 @@
     button.addEventListener('click', event => {
         let files = document.getElementById('fileElem').files
         if (files && files.length > 0) {
-            let url = window.location.origin + '/file_upload'
+            // let url = window.location.origin + '/file_upload'
+            let url = 'http://127.0.0.1:3000/file_upload'
             for (let item of files) {
                 console.log(item)
                 let formData = new FormData()

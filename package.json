@@ -19,5 +19,8 @@
     "serve-index": "^1.9.1",
     "serve-static": "^1.13.1",
     "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "path": "^0.12.7"
   }
 }

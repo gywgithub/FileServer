@@ -8,3 +8,4 @@ package-lock.json
 *.jpg
 # *.gif
 *.jpeg
+*.txt
